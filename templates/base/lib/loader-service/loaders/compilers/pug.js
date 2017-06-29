@@ -1,11 +1,11 @@
 
 module.exports = function (code, filePath, options = {}) {
-  const jade = require('jade');
+  const pug = require('pug');
   try{
     if (options.html){
-      return jade.compile(code, options)
+      return pug.compile(code, options)
     } else {
-      return jade.compileClient(code, options)
+      return pug.compileClient(code, options)
     }
   } catch (e) {
     return e.toString()

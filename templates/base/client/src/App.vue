@@ -5,7 +5,7 @@
 		font-size 22px
 </style>
 
-<template lang="jade">
+<template lang="pug">
 	div
 		h1.title {{title}}
 		.body
