@@ -13,7 +13,12 @@ module.exports = function () {
   return function(file, next, done) {
     const ext =  path.parse(file.path).ext;
     if (STATIC_FILE.test(file.path) || IS_COMMON.test(file.path)) {
-      var readStream = fs.createReadStream(file.path);
+      let readStream;
+      try {
+        readStream = fs.createReadStream(file.path);
+      } catch (err) {
+        return done(new Error(err));
+      }
       let result = '';
       readStream.on('data', function (chunk) {
         result += chunk;
@@ -25,7 +30,12 @@ module.exports = function () {
       return
     }
 
-    const content = fs.readFileSync(file.path);
+    let content;
+    try {
+      content = fs.readFileSync(file.path);
+    } catch (err) {
+      return done(new Error(err));
+    }
     const hash = crypto.createHash('md5');
     // 对文件原始内容做md5
     const md5 = hash.update(content).digest('hex');

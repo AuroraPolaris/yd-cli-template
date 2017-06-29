@@ -6,7 +6,7 @@ const fs = require('fs');
 const vueCompiler = require('vue-template-compiler')
 
 const coffeeCompiler = require('../compilers/coffee');
-const jadeCompiler = require('../compilers/jade');
+const pugCompiler = require('../compilers/pug');
 const cssCompiler = require('../compilers/css');
 const htmlCompiler = require('../compilers/html');
 const babelCompiler = require('../compilers/babel');
@@ -15,8 +15,10 @@ const log = require('../../logger');
 
 const compileTemplate = function (part) {
   switch (part.lang){
-    case 'jade':
-      part.resolved = jadeCompiler(part.content).toString();
+    case 'pug':
+      part.resolved = pugCompiler(part.content, {
+        compileDebug: false
+      }).toString();
       break;
     default:
       part.resolved = htmlCompiler(part.content);

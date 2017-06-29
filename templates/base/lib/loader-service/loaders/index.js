@@ -5,7 +5,6 @@ const log = require('../logger');
 const PipeLine = require('./Pipeline');
 
 const MIME = require('./MIME');
-const jadeCompiler = require('./compilers/jade');
 const globalify = require('./transform/globalify.js');
 const vueify = require('./transform/vueify.js');
 const cssify = require('./transform/cssify.js');
@@ -71,22 +70,6 @@ module.exports = (options)=> {
   nodePipeline.add(umdify());
 
   const requireFn = async (url)=> {
-    /*
-    if (url === '/' && options.index) {
-      // index page
-      let indexFilePath = PATH.join(options.root, options.index)
-      content = fs.readFileSync(indexFilePath, 'utf-8');
-      let fn = jadeCompiler(content, indexFilePath, {
-        filename: indexFilePath,
-        pretty: true,
-        html: true
-      })
-      code = fn({
-        debug: options.debug
-      })
-      return Promise.resolve({code: code})
-    }
-    */
     const ext = PATH.parse(URL.parse(url).pathname).ext;
     const contentType =  MIME[ext] || MIME['.html'];
     let parsed = parseUrl(url);
