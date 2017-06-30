@@ -1,9 +1,7 @@
 const { EventEmitter } = require('events');
+const log = require('../logger');
 
-
-const log = function (text) {
-  console.log(text);
-}
+var debugPipeLine = true;
 
 var File = function (opt = {}) {
   for (var key in opt) {
@@ -48,9 +46,9 @@ PipeLine.prototype.write = function (file) {
         const startTime = Date.now();
         const taskName = tr.$name;
         tr(file, function (_file) {
-          if (self.options.debug) {
+          if (debugPipeLine) {
             const text = `[Pipeline-${self.name}, Task-${taskName || index}]duration: ${Date.now() - startTime}`;
-            log(text)
+            log.debug(text)
           }
           file = _file
           next(index + 1)

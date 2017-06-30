@@ -1,5 +1,5 @@
 {
-  "name": "{{PROJECT_NAME}}",
+  "name": "PROJECT_NAME",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -32,5 +32,12 @@
     "vue-router": "^2.6.0",
     "vue-template-compiler": "^2.3.4",
     "vuex": "^2.3.1"
+  },
+  "devDependencies": {
+    "escodegen": "^1.8.1",
+    "esprima": "^4.0.0",
+    "esprima-walk": "^0.1.0",
+    "requirejs": "^2.3.3",
+    "uglify-js": "^3.0.22"
   }
 }
