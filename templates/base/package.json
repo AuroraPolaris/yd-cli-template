@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "index.js",
-    "dev": "pm2 start processes.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run build && pm2 start processes.json",
+    "dev": "pm2 start processes.json --env dev",
+    "build": "node build/index.js"
   },
   "author": "",
   "license": "ISC",

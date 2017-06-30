@@ -15,6 +15,7 @@ const PORT = config.httpPort;
 
 const httpServer = http.createServer(app.callback());
 
+console.log('env:');
 
 app.use(async (ctx, next)=>{
   if (ctx.url === '/favicon.ico') {
@@ -80,7 +81,8 @@ app.use(require('./devService')({
 app.use(async (ctx, next)=> {
 	if (!ctx.body) {
 		await ctx.render('index', {
-			appname: 'John'
+			appname: process.env.NAME || 'App' ,
+      production: process.env.NODE_ENV === 'production'
 		});
 	}
 })

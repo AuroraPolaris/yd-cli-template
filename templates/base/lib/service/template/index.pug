@@ -3,8 +3,10 @@ head
   meta(charset="utf-8")
 body
   #app
-  if debug
+  if production
+    script(src="/dist.min.js")
+  else
     script.
       window.$$debug = true;
-  script(src="/common/requireConfig.js")
-  script(src="/common/require.js", data-main="/main.js")
+    script(src="/common/requireConfig.js")
+    script(src="/common/require.js", data-main="/main.js")

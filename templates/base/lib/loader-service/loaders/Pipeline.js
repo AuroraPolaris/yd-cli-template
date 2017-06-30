@@ -1,7 +1,7 @@
 const { EventEmitter } = require('events');
 const log = require('../logger');
 
-var debugPipeLine = true;
+var debugPipeLine = process.env.DEBUG_ENV && process.env.DEBUG_ENV.indexOF('PIPELINE') > -1;
 
 var File = function (opt = {}) {
   for (var key in opt) {

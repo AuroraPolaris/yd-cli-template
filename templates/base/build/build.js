@@ -11,7 +11,7 @@ const esprimaWalk = require('esprima-walk');
 
 const buildConfig = {
   main: 'main.js',
-  output: path.join(__dirname, '../client/dist/main.min.js'),
+  output: path.join(__dirname, '../client/dist.min.js'),
   loadConfigPath: path.join(__dirname, '../conf.js'),
   requireConfigPath: path.join(__dirname, '../client/common/requireConfig.js'),
   loadOptions: {
@@ -83,7 +83,8 @@ const loadModule = async function (moduleName, options) {
   };
   const modulePath = getModulePath(moduleName);
   console.log('start load...', modulePath);
-  let code = await loader.require(modulePath);
+  let module = await loader.require(modulePath);
+  let code = module.code;
   if (code instanceof stream) {
     // 流式输出
     code = await getStreamCode(code);
@@ -152,15 +153,28 @@ const start = async function (config) {
   result = SIMPLE_REQUIRE_CODE + '\n' + result;
   console.log('minify start...')
   const minify = UglifyJS.minify(result, {
+    compress: false
+    /*
     fromString: true,
     output: {
       comments: '/^#/i'
     }
+    */
   });
+  if ( minify.error ){
+    console.log('minify error:');
+    return console.error(minify.error);
+  }
   result = "//# build time:" + Date.now() + '\n' + minify.code;
-  console.log('write file start...')
-  fs.writeFileSync(config.output, result, 'utf-8');
-  console.log('all finish')
+  console.log('write file start...', config.output)
+
+  fs.writeFile(config.output, result, function (err) {
+    if (err) {
+      console.error(err)
+    } else {
+      console.log('all finish')
+    }
+  });
 }
 
 start(buildConfig);
