@@ -11,6 +11,9 @@ module.exports = function (options) {
     })
   }
   return async function (ctx, next) {
+    if (ctx.body) {
+      return await next();
+    }
     let url = ctx.request.url;
     if (url === '/') {
       // 未命中路由
