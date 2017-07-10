@@ -16,7 +16,9 @@ module.exports = function (options) {
       // 未命中路由
       return await next();
     }
-    const { code, error, contentType } = await requireFn(url);
+    let { code, error, contentType } = await requireFn(url);
+    // 支持 buffer 类型数据，例如字体文件
+    code = new Buffer(code);
     if (error) {
       await ctx.render('Error', {
         method: ctx.method,

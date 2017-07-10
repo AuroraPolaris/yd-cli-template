@@ -37,8 +37,8 @@ const parseUrl = (url)=>{
   return ref;
 }
 
-const resolvePath = (filePath) => {
-  const find = ['', '.js', '.vue', '.css', '/index.js', '/index.vue'].some(function (ext) {
+const resolvePath = (filePath, originalExt) => {
+  const find = [originalExt, '', '.js', '.vue', '.css', '/index.js', '/index.vue'].some(function (ext) {
     const path = filePath + ext;
     if (fs.existsSync(path) && fs.statSync(path).isFile()) {
       filePath = path;
@@ -75,8 +75,8 @@ module.exports = (options)=> {
     let parsed = parseUrl(url);
     let nodePath = '';
     const staticFile = PATH.join(LOADER_ROOT, parsed.dir, parsed.name)
-    // resolve时无视扩展名，靠resolver自行寻找
-    const localPath = resolvePath(staticFile);
+    // resolve时原始扩展名作为第一优先级，靠resolver自行寻找
+    const localPath = resolvePath(staticFile, ext);
     // a/b/c.ext
     const urlPath = PATH.join(parsed.dir, parsed.base);
     try{

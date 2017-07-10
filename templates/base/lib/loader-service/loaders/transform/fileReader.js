@@ -12,29 +12,16 @@ const FILE_CACHE = {};
 module.exports = function () {
   return function(file, next, done) {
     const ext =  path.parse(file.path).ext;
-    if (STATIC_FILE.test(file.path) || IS_COMMON.test(file.path)) {
-      let readStream;
-      try {
-        readStream = fs.createReadStream(file.path);
-      } catch (err) {
-        return done(new Error(err));
-      }
-      let result = '';
-      readStream.on('data', function (chunk) {
-        result += chunk;
-      })
-      readStream.on('end', function () {
-        file.content = result;
-        return done(file);
-      })
-      return
-    }
 
     let content;
     try {
       content = fs.readFileSync(file.path);
     } catch (err) {
       return done(new Error(err));
+    }
+    if (STATIC_FILE.test(file.path) || IS_COMMON.test(file.path)) {
+      file.content = fs.readFileSync(file.path);
+      return done(file);
     }
     const hash = crypto.createHash('md5');
     // 对文件原始内容做md5
