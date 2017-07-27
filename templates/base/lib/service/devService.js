@@ -21,7 +21,6 @@ module.exports = function (options) {
     }
     let { code, error, contentType } = await requireFn(url);
     // 支持 buffer 类型数据，例如字体文件
-    code = new Buffer(code);
     if (error) {
       await ctx.render('Error', {
         method: ctx.method,
@@ -30,6 +29,7 @@ module.exports = function (options) {
         stack: error.stack
       });
     } else if (code) {
+      code = new Buffer(code);
       ctx.set('Content-Type', contentType);
       ctx.body = code;
     } else {
