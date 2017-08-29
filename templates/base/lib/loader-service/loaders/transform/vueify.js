@@ -63,6 +63,8 @@ const wrapComment = function (type, code) {
 }
 
 const compileVue = (content, filename)=> {
+  // \t 统一处理为2空格
+  content = content.replace(/\t/g, '  ')
   var parts = vueCompiler.parseComponent(content, {
     pad: true
   })

@@ -5,6 +5,6 @@ module.exports = function (code, filePath, options) {
     const parsed = babel.transform(code, options);
     return parsed.code;
   } catch (e) {
-    return e.toString()
+    return `console.error("${e.toString()}")`
   }
 }

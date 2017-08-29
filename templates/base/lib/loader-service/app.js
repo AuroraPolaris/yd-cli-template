@@ -16,6 +16,6 @@ sock.on('message', async function(url, reply){
   // resize the image
   let start = Date.now();
   const result = await loader.require(url);
-  log.debug('loader:', url, Date.now() - start);
+  //log.debug('loader:', url, Date.now() - start);
   reply(result);
 });
